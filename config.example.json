@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "web-scraper": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://your-app.up.railway.app/sse"
+      ]
+    }
+  }
+}

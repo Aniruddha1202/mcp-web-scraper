@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: mcp-web-scraper
+    env: python
+    region: oregon  # or singapore, frankfurt, ohio
+    plan: free      # upgrade to 'starter' for production
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: LOG_LEVEL
+        value: INFO
+    healthCheckPath: /health

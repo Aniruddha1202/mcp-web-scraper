@@ -1,12 +1,14 @@
 {
   "mcpServers": {
-    "web-scraper": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://your-app.up.railway.app/sse"
-      ]
+    "web-scraper-local": {
+      "type": "streamable-http",
+      "url": "http://localhost:8000/mcp",
+      "description": "Local development server"
+    },
+    "web-scraper-render": {
+      "type": "streamable-http",
+      "url": "https://your-app-name.onrender.com/mcp",
+      "description": "Production server on Render - REPLACE YOUR-APP-NAME"
     }
   }
 }

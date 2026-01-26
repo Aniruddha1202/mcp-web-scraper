@@ -24,7 +24,7 @@ wheels/
 venv/
 ENV/
 env/
-.venv
+.venv/
 
 # IDEs
 .vscode/
@@ -33,7 +33,7 @@ env/
 *.swo
 *~
 
-# Environment variables
+# Environment
 .env
 .env.local
 

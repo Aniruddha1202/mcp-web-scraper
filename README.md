@@ -1,247 +1,257 @@
-🚀 MCP Web Scraper Server
-A production-ready MCP (Model Context Protocol) server for advanced web scraping and search, easily deployable on Railway.
+# 🚀 Production MCP Web Scraper Server
 
-✨ Features
-🔍 Advanced Web Search - Search anything on the web using DuckDuckGo
-🤖 Smart Search - Intelligent search with quick/standard/comprehensive modes
-📰 News Search - Dedicated news article search with dates and sources
-🎯 Search & Scrape - Automatically search and extract full content from results
-📄 Article Extraction - Clean article content extraction (removes ads/navigation)
-🔗 Link Extraction - Extract all links with regex filtering
-📊 Table Extraction - Extract table data from webpages
-📝 Metadata Extraction - Get page metadata and Open Graph tags
-🚀 Easy Railway Deployment
-💪 Production-ready
-🛠️ Tools Available
-🔍 Search Tools
-web_search - Search the web for anything (just give a query!)
-smart_search - Intelligent search with modes (quick/standard/comprehensive)
-search_and_scrape - Search + automatically scrape full content
-news_search - Search specifically for news articles
-📄 Scraping Tools
-scrape_html - Scrape HTML content with optional CSS selectors
-extract_links - Extract all links with optional filtering
-extract_metadata - Get page metadata and Open Graph tags
-scrape_table - Extract table data from webpages
-extract_article - Clean article extraction (removes ads/navigation)
-🚀 Quick Deploy to Railway
-Step 1: Create GitHub Repository
-bash
-# Clone or download this repository
-git clone https://github.com/yourusername/mcp-web-scraper.git
-cd mcp-web-scraper
+A modular, production-ready MCP server built with the official MCP Python SDK. Optimized for Render deployment with clean separation of concerns.
 
-# Or create new repository
+## 📁 Project Structure
+
+```
+mcp-web-scraper/
+├── server.py              # Main server entry point
+├── tools/
+│   ├── __init__.py       # Tools package initialization
+│   ├── search.py         # Search tools (web_search, news_search, etc.)
+│   └── scraping.py       # Scraping tools (scrape_html, extract_article, etc.)
+├── utils/
+│   ├── __init__.py       # Utils package initialization
+│   └── helpers.py        # Helper functions (clean_text, validate_url)
+├── requirements.txt       # Python dependencies
+├── render.yaml           # Render deployment configuration
+├── .gitignore            # Git ignore rules
+├── README.md             # This file
+└── config.example.json   # Claude Desktop config example
+```
+
+## ✨ Features
+
+### 🔍 Search Tools (`tools/search.py`)
+- **web_search** - DuckDuckGo web search
+- **news_search** - News articles with metadata
+- **search_and_scrape** - Search + content extraction
+- **smart_search** - Adaptive search (quick/standard/comprehensive)
+
+### 📄 Scraping Tools (`tools/scraping.py`)
+- **scrape_html** - HTML scraping with CSS selectors
+- **extract_article** - Clean article extraction
+- **extract_links** - Link extraction with filtering
+- **extract_metadata** - Page metadata & Open Graph
+- **scrape_table** - Table data extraction
+
+## 🚀 Quick Deploy to Render
+
+### Step 1: Create Project Structure
+
+```bash
 mkdir mcp-web-scraper
 cd mcp-web-scraper
-# Copy all files here
 
-# Initialize git
+# Create directory structure
+mkdir -p tools utils
+
+# Create all files (copy from artifacts above):
+# - server.py
+# - tools/__init__.py
+# - tools/search.py
+# - tools/scraping.py
+# - utils/__init__.py
+# - utils/helpers.py
+# - requirements.txt
+# - render.yaml
+# - .gitignore
+# - README.md
+```
+
+### Step 2: Push to GitHub
+
+```bash
 git init
 git add .
-git commit -m "Initial commit: MCP Web Scraper Server"
-git branch -M main
+git commit -m "Initial commit: Modular MCP Web Scraper"
 git remote add origin https://github.com/YOUR_USERNAME/mcp-web-scraper.git
 git push -u origin main
-Step 2: Deploy to Railway
-Go to railway.app
-Click "New Project"
-Select "Deploy from GitHub repo"
-Choose your repository
-Railway automatically detects Dockerfile and deploys! 🎉
-Step 3: Get Your URL
-Click on your deployment in Railway
-Go to "Settings" → "Domains"
-Click "Generate Domain"
-Copy your URL (e.g., https://mcp-web-scraper-production.up.railway.app)
-Step 4: Test Your Server
-bash
-# Health check
-curl https://your-app.up.railway.app/health
+```
 
-# List available tools
-curl https://your-app.up.railway.app/tools
+### Step 3: Deploy on Render
 
-# Test web search
-curl -X POST https://your-app.up.railway.app/call-tool \
-  -H "Content-Type: application/json" \
-  -d '{"name": "web_search", "arguments": {"query": "latest AI news"}}'
-💻 Local Development
-bash
-# Clone repository
-git clone https://github.com/yourusername/mcp-web-scraper.git
+1. Go to [render.com](https://render.com)
+2. Click **"New +"** → **"Web Service"**
+3. Connect your GitHub repository
+4. Render auto-detects `render.yaml`
+5. Click **"Create Web Service"**
+6. Wait 2-3 minutes ✨
+
+### Step 4: Get Your URL
+
+Your service: `https://your-app.onrender.com`
+MCP endpoint: `https://your-app.onrender.com/mcp`
+
+## 🔌 Connect to Claude Desktop
+
+### Config Location
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+### Configuration
+
+```json
+{
+  "mcpServers": {
+    "web-scraper": {
+      "type": "streamable-http",
+      "url": "https://your-app.onrender.com/mcp"
+    }
+  }
+}
+```
+
+**Restart Claude Desktop** after updating config!
+
+## 💻 Local Development
+
+```bash
+# Clone and setup
+git clone https://github.com/YOUR_USERNAME/mcp-web-scraper.git
 cd mcp-web-scraper
 
 # Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Run server
-uvicorn src.server:app --reload --port 8000
-Visit http://localhost:8000 to see the server running!
+python server.py
+```
 
-🔌 Connect to Claude Desktop
-Add to your Claude Desktop config (claude_desktop_config.json):
+Server runs at `http://localhost:8000/mcp`
 
-macOS: ~/Library/Application Support/Claude/claude_desktop_config.json Windows: %APPDATA%\Claude\claude_desktop_config.json
+### Test Locally
 
-json
-{
-  "mcpServers": {
-    "web-scraper": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://your-app.up.railway.app/sse"
-      ]
-    }
-  }
-}
-Then restart Claude Desktop!
+```bash
+# List tools
+curl -X POST http://localhost:8000/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 
-📋 Example Usage
-Search the Web
-bash
-curl -X POST http://localhost:8000/call-tool \
+# Test web search
+curl -X POST http://localhost:8000/mcp \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "web_search",
-    "arguments": {
-      "query": "best pizza recipe",
-      "max_results": 5
+    "jsonrpc":"2.0",
+    "id":2,
+    "method":"tools/call",
+    "params":{
+      "name":"web_search",
+      "arguments":{"query":"AI news","max_results":3}
     }
   }'
-Smart Search (Comprehensive)
-bash
-curl -X POST http://localhost:8000/call-tool \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "smart_search",
-    "arguments": {
-      "query": "climate change solutions",
-      "mode": "comprehensive"
-    }
-  }'
-Search and Scrape
-bash
-curl -X POST http://localhost:8000/call-tool \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "search_and_scrape",
-    "arguments": {
-      "query": "machine learning tutorials",
-      "num_results": 3
-    }
-  }'
-News Search
-bash
-curl -X POST http://localhost:8000/call-tool \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "news_search",
-    "arguments": {
-      "query": "technology",
-      "max_results": 10
-    }
-  }'
-Extract Article
-bash
-curl -X POST http://localhost:8000/call-tool \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "extract_article",
-    "arguments": {
-      "url": "https://example.com/article"
-    }
-  }'
-🎯 Use Cases in Claude
-Once connected, you can ask Claude:
+```
 
-"Search for the best Italian restaurants in Rome"
-"Find me recent articles about quantum computing"
-"What's the latest news on AI developments?"
-"Research blockchain technology and give me detailed info"
-"Scrape the table from this webpage: [URL]"
-"Extract all links from example.com"
-📁 Project Structure
-mcp-web-scraper/
-├── src/
-│   ├── __init__.py       # Package initialization
-│   ├── server.py         # FastAPI server and MCP integration
-│   └── tools.py          # Web scraping and search tools
-├── requirements.txt       # Python dependencies
-├── Dockerfile            # Docker configuration
-├── railway.json          # Railway deployment config
-├── .gitignore            # Git ignore file
-└── README.md             # This file
-🔧 Configuration
-Environment Variables (Optional)
-You can set these in Railway dashboard under "Variables":
+## 🛠️ Adding New Tools
 
-LOG_LEVEL - Logging level (default: INFO)
-PORT - Server port (default: 8000)
-HOST - Server host (default: 0.0.0.0)
-📊 Monitoring
-Railway provides built-in monitoring:
+### 1. Search Tool Example
 
-Metrics - CPU, Memory, Network usage
-Logs - Real-time application logs
-Deployments - Deployment history and rollbacks
-Access these in your Railway dashboard.
+Edit `tools/search.py`:
 
-💰 Cost
-Railway Free Tier:
+```python
+@mcp.tool()
+def my_custom_search(query: str) -> dict:
+    """Your custom search tool"""
+    # Implementation here
+    return {"success": True, "data": []}
+```
 
-$5 free credit per month
-500 hours of usage
-Perfect for personal use and testing
-For production use, consider upgrading to Railway Pro.
+### 2. Scraping Tool Example
 
-🔒 Security Notes
-⚠️ This server is deployed without authentication for easy use. For production:
+Edit `tools/scraping.py`:
 
-Consider adding API key authentication
-Implement rate limiting
-Restrict allowed domains
-Use environment variables for sensitive data
-🐛 Troubleshooting
-Server not starting?
-Check Railway logs in dashboard
-Verify all files are committed to Git
-Ensure Dockerfile is in root directory
-Tools not working?
-Check tool names match exactly
-Verify JSON format in requests
-Check server logs for errors
-Can't connect to Claude?
-Verify Railway URL is correct
-Ensure /sse endpoint is accessible
-Restart Claude Desktop after config change
-🤝 Contributing
-Contributions are welcome! Feel free to:
+```python
+@mcp.tool()
+def my_custom_scraper(url: str) -> dict:
+    """Your custom scraper"""
+    # Implementation here
+    return {"success": True, "content": ""}
+```
 
-Report bugs
-Suggest new features
-Submit pull requests
-📄 License
-MIT License - feel free to use and modify!
+### 3. Deploy Changes
 
-🙏 Acknowledgments
-Built with:
+```bash
+git add .
+git commit -m "Add new tools"
+git push origin main
+# Render auto-deploys!
+```
 
-FastAPI - Web framework
-MCP - Model Context Protocol
-DuckDuckGo Search - Web search
-Trafilatura - Content extraction
-BeautifulSoup - HTML parsing
-Railway - Deployment platform
-📞 Support
-GitHub Issues: Report a bug
-Railway Docs: docs.railway.app
-MCP Docs: modelcontextprotocol.io
-Made with ❤️ for the MCP community
+## 📊 Monitoring
 
+### View Logs
+1. Render Dashboard → Your Service
+2. Click **"Logs"** tab
+3. View real-time logs
+
+### Health Check
+```bash
+curl https://your-app.onrender.com/health
+```
+
+## 🎯 Architecture Benefits
+
+### ✅ Modular Design
+- **Separation of concerns** - Each file has one responsibility
+- **Easy to maintain** - Find and update code quickly
+- **Scalable** - Add new tools without touching existing code
+
+### ✅ Clean Code
+- **Type hints** - Better IDE support and error catching
+- **Logging** - Track all operations
+- **Error handling** - Graceful failures with detailed errors
+
+### ✅ Production Ready
+- **Official MCP SDK** - FastMCP framework
+- **Streamable HTTP** - Single endpoint communication
+- **Stateless** - Horizontally scalable
+- **Health checks** - Automatic monitoring
+
+## 💬 Example Usage in Claude
+
+- "Search for latest quantum computing news"
+- "Extract the article from https://example.com/post"
+- "Find and scrape top 5 articles about AI safety"
+- "Get all links from https://news.ycombinator.com"
+- "Do comprehensive research on renewable energy"
+
+## 🐛 Troubleshooting
+
+### Import Errors
+```bash
+# Ensure you're in project root
+cd mcp-web-scraper
+
+# Check Python path
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
+# Run server
+python server.py
+```
+
+### Tools Not Registered
+Check logs for "Registering X tools..." messages
+
+### Module Not Found
+Ensure all `__init__.py` files exist in:
+- `tools/__init__.py`
+- `utils/__init__.py`
+
+## 📚 Resources
+
+- [MCP Documentation](https://modelcontextprotocol.io/)
+- [FastMCP](https://gofastmcp.com/)
+- [Render Docs](https://render.com/docs)
+
+## 📄 License
+
+MIT License - Free to use and modify!
+
+---
+
+**Modular** ✅ | **Production-Ready** ✅ | **Easy to Extend** ✅

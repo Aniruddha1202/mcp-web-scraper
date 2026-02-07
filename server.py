@@ -28,7 +28,7 @@ if not q_client.collection_exists(COLLECTION):
 
 # --- 1. DEFINE TOOLS IN A LIST ---
 # This makes it easy to export them to multiple endpoints
-DEFINED_TOOLS = [ß
+DEFINED_TOOLS = [
     Tool(
         name="search_web", 
         description="Search the internet for real-time information.", 
